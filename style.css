@@ -651,3 +651,11 @@ textarea { min-height: 96px; resize: vertical; }
 @media (max-width: 860px) { .team-grid { grid-template-columns: 1fr; max-width: 420px; } }
 
 img.brand-icon { object-fit: cover; }
+
+/* Logo lebih besar */
+img.brand-icon { width: 56px; height: 56px; object-fit: contain; background: none; border-radius: 0; }
+.site-footer img.brand-icon { width: 44px; height: 44px; }
+@media (max-width: 520px) { img.brand-icon { width: 44px; height: 44px; } }
+
+/* Lingkaran bunga di hero jadi bulat (desktop) */
+@media (min-width: 861px) { .hero-art { width: 100%; } }
