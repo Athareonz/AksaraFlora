@@ -649,3 +649,5 @@ textarea { min-height: 96px; resize: vertical; }
 .team-role { margin: 4px 0 12px; color: var(--rose); font-size: 0.82rem; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase; }
 .team-card p { color: var(--muted); font-size: 0.95rem; }
 @media (max-width: 860px) { .team-grid { grid-template-columns: 1fr; max-width: 420px; } }
+
+img.brand-icon { object-fit: cover; }
