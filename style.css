@@ -717,42 +717,4 @@ img.brand-icon { width: 56px; height: 56px; object-fit: contain; background: non
     margin-top: 4px;
 }
 
-.qris-placeholder {
-    width: 230px;
-    height: 230px;
-    margin: 20px auto;
-    border: 2px dashed #c49b83;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: #fff8f4;
-    padding: 20px;
-}
 
-.qris-placeholder {
-    width: 230px;
-    height: 230px;
-    margin: 20px auto;
-    border: 2px dashed #c49b83;
-    border-radius: 15px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background: #fff8f4;
-    padding: 20px;
-}
-
-.qris-placeholder span {
-    font-weight: bold;
-    color: #8b5e4b;
-}
-
-.qris-placeholder p {
-    font-size: 13px;
-    color: #777;
-}
