@@ -115,7 +115,36 @@ const PRODUCTS = [
         }
     }
 ];
+.product-image {
+    width: 100%;
+    height: 230px;
+    object-fit: cover;
+    border-radius: 12px;
+}
 
+.product-card {
+    overflow: hidden;
+}
+
+.product-body select,
+.product-body input {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0 15px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: inherit;
+}
+
+.product-body label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.product-body button {
+    width: 100%;
+}
 function productCard(p) {
     const options = [];
 
