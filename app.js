@@ -6,118 +6,33 @@
 
 /* ---------- Katalog produk ---------- */
 const PRODUCTS = [
-    {
-        id: "mawar",
-        name: "Bunga Mawar",
-        category: "Bunga",
-        image: "mawar.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 15000
-        }
-    },
-    {
-        id: "krisan",
-        name: "Bunga Krisan",
-        category: "Bunga",
-        image: "Krisan.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 10000
-        }
-    },
-    {
-        id: "gompi",
-        name: "Bunga Gompi",
-        category: "Bunga",
-        image: "Gompi.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 15000
-        }
-    },
-    {
-        id: "pompom",
-        name: "Bunga Pompom",
-        category: "Bunga",
-        image: "Pompom.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 10000
-        }
-    },
-    {
-        id: "matahari",
-        name: "Bunga Matahari",
-        category: "Bunga",
-        image: "matahri.jpeg",
-        prices: {
-            tangkai: 30000,
-            buket: 25000
-        }
-    },
-    {
-        id: "gerbera",
-        name: "Bunga Gerbera",
-        category: "Bunga",
-        image: "Gerbera.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 10000
-        }
-    },
-    {
-        id: "hydrangea",
-        name: "Bunga Hydrangea",
-        category: "Bunga",
-        image: "hydrangea.jpeg",
-        prices: {
-            tangkai: 35000,
-            buket: 30000
-        }
-    },
-    {
-        id: "pikok",
-        name: "Bunga Pikok",
-        category: "Bunga",
-        image: "pikok.jpeg",
-        prices: {
-            tangkai: 20000,
-            buket: 5000
-        }
-    },
-    {
-        id: "lily",
-        name: "Bunga Lily",
-        category: "Bunga",
-        image: "lily.jpeg",
-        prices: {
-            tangkai: 100000,
-            buket: 90000
-        }
-    },
-    {
-        id: "daun-talaspi",
-        name: "Daun Talaspi",
-        category: "Filler",
-        image: "thalaspi.jpeg",
-        prices: {
-            buket: 10000
-        }
-    },
-    {
-        id: "sweet-six",
-        name: "The Sweet Six",
-        category: "Paket",
-        image: "Sweetsix.jpeg",
-        prices: {
-            paket: 100000
-        }
-    }
+    { id: 'mawar-merah', name: 'Buket Mawar Merah', price: 185000, tag: 'Best Seller',
+      desc: '10 tangkai mawar merah segar dengan pembungkus elegan.',
+      emoji: '🌹', emoji2: '', bg: 'linear-gradient(135deg,#ff8fab,#c9184a)' },
+    { id: 'tulip-pastel', name: 'Buket Tulip Pastel', price: 165000, tag: 'Favorit',
+      desc: '7 tangkai tulip warna pastel yang lembut dan ceria.',
+      emoji: '🌷', emoji2: '', bg: 'linear-gradient(135deg,#ffc2d1,#ff8fab)' },
+    { id: 'matahari', name: 'Bunga Matahari Ceria', price: 120000, tag: '',
+      desc: '5 tangkai bunga matahari untuk membawa suasana hangat.',
+      emoji: '🌻', emoji2: '', bg: 'linear-gradient(135deg,#ffe066,#f59f00)' },
+    { id: 'daisy', name: 'Buket Daisy Putih', price: 90000, tag: 'Hemat',
+      desc: 'Daisy putih mungil yang manis, cocok untuk hadiah sederhana.',
+      emoji: '🌼', emoji2: '', bg: 'linear-gradient(135deg,#fff3bf,#ffd43b)' },
+    { id: 'campur', name: 'Buket Campur Premium', price: 210000, tag: 'Premium',
+      desc: 'Perpaduan berbagai bunga pilihan dalam satu buket besar.',
+      emoji: '💐', emoji2: '✨', bg: 'linear-gradient(135deg,#e5b3fe,#ff8fab)' },
+    { id: 'wisuda', name: 'Buket Wisuda', price: 175000, tag: 'Wisuda',
+      desc: 'Buket untuk merayakan kelulusan, lengkap dengan boneka kecil.',
+      emoji: '💐', emoji2: '🎓', bg: 'linear-gradient(135deg,#a5d8ff,#9775fa)' },
+    { id: 'anggrek', name: 'Anggrek Bulan (Pot)', price: 250000, tag: 'Tanaman',
+      desc: 'Anggrek bulan dalam pot cantik, tahan lama dan mudah dirawat.',
+      emoji: '🌸', emoji2: '🪴', bg: 'linear-gradient(135deg,#fcc2d7,#a9e34b)' },
+    { id: 'kering', name: 'Buket Bunga Kering', price: 140000, tag: 'Tahan Lama',
+      desc: 'Rangkaian bunga kering bergaya rustic yang awet dipajang.',
+      emoji: '🌾', emoji2: '', bg: 'linear-gradient(135deg,#f3d9b1,#c68b59)' }
 ];
 
-
-const PROMOS = { BEHINDTHEMOMENT: { percent: 10, label: 'Diskon 10%' } };
+const PROMOS = { BUNGA10: { percent: 10, label: 'Diskon 10%' } };
 const MAX_QTY = 20;
 const CART_KEY = 'aksarafloraCart';
 const PROMO_KEY = 'aksarafloraPromo';
@@ -587,112 +502,3 @@ document.addEventListener('DOMContentLoaded', () => {
     initCartPage();
     initCheckoutPage();
 });
-
-function sendOrderToWhatsApp(order) {
-    const cart = JSON.parse(
-        localStorage.getItem("aksara_cart") || "[]"
-    );
-
-    let message = `HALO AKSARA FLORA 🌸
-
-Saya ingin melakukan pemesanan bunga.
-
-Nama: ${order.name}
-Alamat: ${order.address}
-Tanggal Pengiriman: ${order.date}
-
-DETAIL PESANAN:
-`;
-
-    let total = 0;
-
-    cart.forEach((item, index) => {
-        const subtotal = item.price * item.qty;
-        total += subtotal;
-
-        message += `
-${index + 1}. ${item.name}
-Jenis: ${item.type}
-Jumlah: ${item.qty}
-Harga: Rp${item.price.toLocaleString("id-ID")}
-Subtotal: Rp${subtotal.toLocaleString("id-ID")}
-`;
-    });
-
-    message += `
-TOTAL: Rp${total.toLocaleString("id-ID")}
-
-Mohon konfirmasi pesanan saya.
-Terima kasih 🌷`;
-
-    const url =
-        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
-
-    window.open(url, "_blank");
-}
-
-function productCard(p) {
-    const options = [];
-
-    if (p.prices.tangkai) {
-        options.push(`
-            <option value="tangkai">
-                Per Tangkai - ${rupiah(p.prices.tangkai)}
-            </option>
-        `);
-    }
-
-    if (p.prices.buket) {
-        options.push(`
-            <option value="buket">
-                Buket - ${rupiah(p.prices.buket)}
-            </option>
-        `);
-    }
-
-    if (p.prices.paket) {
-        options.push(`
-            <option value="paket">
-                Paket - ${rupiah(p.prices.paket)}
-            </option>
-        `);
-    }
-
-    return `
-        <article class="product-card">
-            <div class="product-visual">
-                <img
-                    src="${p.image}"
-                    alt="${p.name}"
-                    class="product-image"
-                >
-            </div>
-
-            <div class="product-body">
-                <h3>${p.name}</h3>
-
-                <label>Pilih jenis pembelian</label>
-
-                <select id="type-${p.id}">
-                    ${options.join("")}
-                </select>
-
-                <label>Jumlah</label>
-
-                <input
-                    type="number"
-                    id="qty-${p.id}"
-                    value="1"
-                    min="1"
-                >
-
-                <button
-                    class="btn btn-primary"
-                    onclick="addFlowerToCart('${p.id}')"
-                >
-                    + Keranjang
-                </button>
-            </div>
-        </article>
-    `;
-}
