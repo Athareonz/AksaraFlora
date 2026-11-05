@@ -13,7 +13,7 @@ const PRODUCTS = [
         image: "images/mawar.jpg",
         prices: {
             tangkai: 20000,
-            buket: 105000
+            buket: 15000
         }
     },
     {
