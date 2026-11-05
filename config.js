@@ -13,4 +13,6 @@ const SHOP_CONFIG = {
     // Kosong = Analytics mati. Saat dibuka lewat localhost / file langsung, Analytics juga tidak aktif.
     GA_ID: 'G-127LPY7620',
     GA_TRACK_LOCAL: false   // ubah ke true hanya kalau mau ngetes lewat localhost (GA DebugView)
+
+   const WHATSAPP_NUMBER = "6285695433665";
 };
