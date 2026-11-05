@@ -10,7 +10,7 @@ const PRODUCTS = [
         id: "mawar",
         name: "Bunga Mawar",
         category: "Bunga",
-        image: "images/mawar.jpg",
+        image: "mawar.jpeg",
         prices: {
             tangkai: 20000,
             buket: 15000
@@ -20,7 +20,7 @@ const PRODUCTS = [
         id: "krisan",
         name: "Bunga Krisan",
         category: "Bunga",
-        image: "images/krisan.jpg",
+        image: "Krisan.jpeg",
         prices: {
             tangkai: 20000,
             buket: 10000
@@ -30,7 +30,7 @@ const PRODUCTS = [
         id: "gompi",
         name: "Bunga Gompi",
         category: "Bunga",
-        image: "images/gompi.jpg",
+        image: "Gompi.jpeg",
         prices: {
             tangkai: 20000,
             buket: 15000
@@ -40,7 +40,7 @@ const PRODUCTS = [
         id: "pompom",
         name: "Bunga Pompom",
         category: "Bunga",
-        image: "images/pompom.jpg",
+        image: "Pompom.jpeg",
         prices: {
             tangkai: 20000,
             buket: 10000
@@ -50,7 +50,7 @@ const PRODUCTS = [
         id: "matahari",
         name: "Bunga Matahari",
         category: "Bunga",
-        image: "images/matahari.jpg",
+        image: "matahri.jpeg",
         prices: {
             tangkai: 30000,
             buket: 25000
@@ -70,7 +70,7 @@ const PRODUCTS = [
         id: "hydrangea",
         name: "Bunga Hydrangea",
         category: "Bunga",
-        image: "images/hydrangea.jpg",
+        image: "hydrangea.jpeg",
         prices: {
             tangkai: 35000,
             buket: 30000
@@ -80,7 +80,7 @@ const PRODUCTS = [
         id: "pikok",
         name: "Bunga Pikok",
         category: "Bunga",
-        image: "images/pikok.jpg",
+        image: "pikok.jpeg",
         prices: {
             tangkai: 20000,
             buket: 5000
@@ -90,7 +90,7 @@ const PRODUCTS = [
         id: "lily",
         name: "Bunga Lily",
         category: "Bunga",
-        image: "images/lily.jpg",
+        image: "lily.jpeg",
         prices: {
             tangkai: 100000,
             buket: 90000
@@ -100,7 +100,7 @@ const PRODUCTS = [
         id: "daun-talaspi",
         name: "Daun Talaspi",
         category: "Filler",
-        image: "images/daun-talaspi.jpg",
+        image: "thalaspi.jpeg",
         prices: {
             buket: 10000
         }
@@ -109,7 +109,7 @@ const PRODUCTS = [
         id: "sweet-six",
         name: "The Sweet Six",
         category: "Paket",
-        image: "images/sweet-six.jpg",
+        image: "Sweetsix.jpeg",
         prices: {
             paket: 100000
         }
