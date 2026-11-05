@@ -426,15 +426,6 @@ function initCheckoutPage() {
     if (!root) return;
     const t = calcTotals();
 
-   const form = $('#checkout-form');
-   const pembayaran = $('#pembayaran');
-const qrisSection = $('#qris-section');
-
-pembayaran.addEventListener('change', () => {
-    qrisSection.style.display =
-        pembayaran.value === 'QRIS' ? 'block' : 'none';
-});
-
     if (t.lines.length === 0) {
         root.innerHTML = `
             <div class="panel empty-state">
@@ -527,6 +518,14 @@ pembayaran.addEventListener('change', () => {
     const form = $('#checkout-form');
     const errBox = $('#form-error');
     const btn = $('#submit-btn');
+      const form = $('#checkout-form');
+   const pembayaran = $('#pembayaran');
+const qrisSection = $('#qris-section');
+
+pembayaran.addEventListener('change', () => {
+    qrisSection.style.display =
+        pembayaran.value === 'QRIS' ? 'block' : 'none';
+});
 
     const showError = msg => { errBox.textContent = msg; errBox.classList.add('show'); errBox.scrollIntoView({ block: 'center', behavior: 'smooth' }); };
 
