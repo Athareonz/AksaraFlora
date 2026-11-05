@@ -6,33 +6,117 @@
 
 /* ---------- Katalog produk ---------- */
 const PRODUCTS = [
-    { id: 'mawar-merah', name: 'Buket Mawar Merah', price: 185000, tag: 'Best Seller',
-      desc: '10 tangkai mawar merah segar dengan pembungkus elegan.',
-      emoji: '🌹', emoji2: '', bg: 'linear-gradient(135deg,#ff8fab,#c9184a)' },
-    { id: 'tulip-pastel', name: 'Buket Tulip Pastel', price: 165000, tag: 'Favorit',
-      desc: '7 tangkai tulip warna pastel yang lembut dan ceria.',
-      emoji: '🌷', emoji2: '', bg: 'linear-gradient(135deg,#ffc2d1,#ff8fab)' },
-    { id: 'matahari', name: 'Bunga Matahari Ceria', price: 120000, tag: '',
-      desc: '5 tangkai bunga matahari untuk membawa suasana hangat.',
-      emoji: '🌻', emoji2: '', bg: 'linear-gradient(135deg,#ffe066,#f59f00)' },
-    { id: 'daisy', name: 'Buket Daisy Putih', price: 90000, tag: 'Hemat',
-      desc: 'Daisy putih mungil yang manis, cocok untuk hadiah sederhana.',
-      emoji: '🌼', emoji2: '', bg: 'linear-gradient(135deg,#fff3bf,#ffd43b)' },
-    { id: 'campur', name: 'Buket Campur Premium', price: 210000, tag: 'Premium',
-      desc: 'Perpaduan berbagai bunga pilihan dalam satu buket besar.',
-      emoji: '💐', emoji2: '✨', bg: 'linear-gradient(135deg,#e5b3fe,#ff8fab)' },
-    { id: 'wisuda', name: 'Buket Wisuda', price: 175000, tag: 'Wisuda',
-      desc: 'Buket untuk merayakan kelulusan, lengkap dengan boneka kecil.',
-      emoji: '💐', emoji2: '🎓', bg: 'linear-gradient(135deg,#a5d8ff,#9775fa)' },
-    { id: 'anggrek', name: 'Anggrek Bulan (Pot)', price: 250000, tag: 'Tanaman',
-      desc: 'Anggrek bulan dalam pot cantik, tahan lama dan mudah dirawat.',
-      emoji: '🌸', emoji2: '🪴', bg: 'linear-gradient(135deg,#fcc2d7,#a9e34b)' },
-    { id: 'kering', name: 'Buket Bunga Kering', price: 140000, tag: 'Tahan Lama',
-      desc: 'Rangkaian bunga kering bergaya rustic yang awet dipajang.',
-      emoji: '🌾', emoji2: '', bg: 'linear-gradient(135deg,#f3d9b1,#c68b59)' }
+    {
+        id: "mawar",
+        name: "Bunga Mawar",
+        category: "Bunga",
+        image: "images/mawar.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 15000
+        }
+    },
+    {
+        id: "krisan",
+        name: "Bunga Krisan",
+        category: "Bunga",
+        image: "images/krisan.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 10000
+        }
+    },
+    {
+        id: "gompi",
+        name: "Bunga Gompi",
+        category: "Bunga",
+        image: "images/gompi.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 15000
+        }
+    },
+    {
+        id: "pompom",
+        name: "Bunga Pompom",
+        category: "Bunga",
+        image: "images/pompom.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 10000
+        }
+    },
+    {
+        id: "matahari",
+        name: "Bunga Matahari",
+        category: "Bunga",
+        image: "images/matahari.jpg",
+        prices: {
+            tangkai: 30000,
+            buket: 25000
+        }
+    },
+    {
+        id: "gerbera",
+        name: "Bunga Gerbera",
+        category: "Bunga",
+        image: "images/gerbera.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 10000
+        }
+    },
+    {
+        id: "hydrangea",
+        name: "Bunga Hydrangea",
+        category: "Bunga",
+        image: "images/hydrangea.jpg",
+        prices: {
+            tangkai: 35000,
+            buket: 30000
+        }
+    },
+    {
+        id: "pikok",
+        name: "Bunga Pikok",
+        category: "Bunga",
+        image: "images/pikok.jpg",
+        prices: {
+            tangkai: 20000,
+            buket: 5000
+        }
+    },
+    {
+        id: "lily",
+        name: "Bunga Lily",
+        category: "Bunga",
+        image: "images/lily.jpg",
+        prices: {
+            tangkai: 100000,
+            buket: 90000
+        }
+    },
+    {
+        id: "daun-talaspi",
+        name: "Daun Talaspi",
+        category: "Filler",
+        image: "images/daun-talaspi.jpg",
+        prices: {
+            buket: 10000
+        }
+    },
+    {
+        id: "sweet-six",
+        name: "The Sweet Six",
+        category: "Paket",
+        image: "images/sweet-six.jpg",
+        prices: {
+            paket: 100000
+        }
+    }
 ];
 
-const PROMOS = { BUNGA10: { percent: 10, label: 'Diskon 10%' } };
+const PROMOS = { BEHINDTHEMOMENT: { percent: 10, label: 'Diskon 10%' } };
 const MAX_QTY = 20;
 const CART_KEY = 'aksarafloraCart';
 const PROMO_KEY = 'aksarafloraPromo';
