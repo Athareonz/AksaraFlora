@@ -60,7 +60,7 @@ const PRODUCTS = [
         id: "gerbera",
         name: "Bunga Gerbera",
         category: "Bunga",
-        image: "images/gerbera.jpg",
+        image: "Gerbera.jpeg",
         prices: {
             tangkai: 20000,
             buket: 10000
