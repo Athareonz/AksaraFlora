@@ -426,6 +426,15 @@ function initCheckoutPage() {
     if (!root) return;
     const t = calcTotals();
 
+   const form = $('#checkout-form');
+   const pembayaran = $('#pembayaran');
+const qrisSection = $('#qris-section');
+
+pembayaran.addEventListener('change', () => {
+    qrisSection.style.display =
+        pembayaran.value === 'QRIS' ? 'block' : 'none';
+});
+
     if (t.lines.length === 0) {
         root.innerHTML = `
             <div class="panel empty-state">
@@ -471,17 +480,31 @@ function initCheckoutPage() {
                         <label for="kartu">Pesan kartu ucapan (opsional)</label>
                         <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: Selamat ulang tahun, semoga selalu bahagia!"></textarea>
                     </div>
-                    <div class="field">
-                        <label for="pembayaran">Metode pembayaran <span class="req">*</span></label>
-                        <select id="pembayaran" name="pembayaran" required>
-                            <option value="">Pilih metode…</option>
-                            <option>Tunai (COD)</option>
-                            <option>Transfer Bank</option>
-                            <option>GoPay</option>
-                            <option>OVO</option>
-                            <option>Dana</option>
-                        </select>
-                    </div>
+<div class="field">
+    <label for="pembayaran">Metode pembayaran</label>
+
+    <select id="pembayaran" name="pembayaran" required>
+        <option value="">Pilih metode...</option>
+        <option value="QRIS">QRIS</option>
+    </select>
+</div>
+
+<div class="field" id="qris-section" style="display:none;">
+    <h3>Pembayaran QRIS</h3>
+
+    <p>Silakan scan QRIS Aksara Flora untuk membayar.</p>
+
+    <div class="qris-placeholder">
+        <span>🌸</span>
+        <strong>QRIS AKSARA FLORA</strong>
+        <p>QRIS akan ditampilkan di sini.</p>
+    </div>
+
+    <small>
+        Setelah membayar, kirim bukti pembayaran
+        melalui WhatsApp.
+    </small>
+</div>
                     <div class="field">
                         <label for="catatan">Catatan (opsional)</label>
                         <textarea id="catatan" name="catatan" maxlength="200" placeholder="Contoh: titip ke satpam jika tidak ada orang"></textarea>
