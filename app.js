@@ -623,6 +623,49 @@ function productCard(p) {
     `;
 }
 
+function sendOrderToWhatsApp(order) {
+    const cart = JSON.parse(
+        localStorage.getItem("aksara_cart") || "[]"
+    );
+
+    let message = `HALO AKSARA FLORA 🌸
+
+Saya ingin melakukan pemesanan bunga.
+
+Nama: ${order.name}
+Alamat: ${order.address}
+Tanggal Pengiriman: ${order.date}
+
+DETAIL PESANAN:
+`;
+
+    let total = 0;
+
+    cart.forEach((item, index) => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+
+        message += `
+${index + 1}. ${item.name}
+Jenis: ${item.type}
+Jumlah: ${item.qty}
+Harga: Rp${item.price.toLocaleString("id-ID")}
+Subtotal: Rp${subtotal.toLocaleString("id-ID")}
+`;
+    });
+
+    message += `
+TOTAL: Rp${total.toLocaleString("id-ID")}
+
+Mohon konfirmasi pesanan saya.
+Terima kasih 🌷`;
+
+    const url =
+        `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+
+    window.open(url, "_blank");
+}
+
 function addFlowerToCart(id) {
     const product = PRODUCTS.find(p => p.id === id);
 
