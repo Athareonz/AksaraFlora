@@ -652,71 +652,36 @@ textarea { min-height: 96px; resize: vertical; }
 
 img.brand-icon { object-fit: cover; }
 
-/* Logo lebih besar */
-img.brand-icon { width: 56px; height: 56px; object-fit: contain; background: none; border-radius: 0; }
-.site-footer img.brand-icon { width: 44px; height: 44px; }
-@media (max-width: 520px) { img.brand-icon { width: 44px; height: 44px; } }
-
-/* Lingkaran bunga di hero jadi bulat (desktop) */
-@media (min-width: 861px) { .hero-art { width: 100%; } }
-
-/* --- PERBAIKAN KATALOG & NAMA BUNGA --- */
 .product-image {
     width: 100%;
     height: 230px;
     object-fit: cover;
-    border-radius: 12px 12px 0 0;
+    border-radius: 12px;
 }
 
 .product-card {
     overflow: hidden;
-    background: #ffffff;
-    border-radius: 16px;
-    border: 1px solid #f3dde3;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.product-body {
-    padding: 16px;
-}
-
-/* Penambahan CSS agar Nama Bunga terlihat jelas */
-.product-body h3 {
-    display: block;
-    color: #2b1a22; /* Warna teks gelap agar kontras & jelas */
-    font-size: 1.25rem;
-    font-weight: 700;
-    margin-top: 0;
-    margin-bottom: 12px;
-    line-height: 1.3;
-}
-
-.product-body label {
-    display: block;
-    font-size: 13px;
-    font-weight: 600;
-    color: #666;
-    margin-top: 8px;
-    margin-bottom: 4px;
 }
 
 .product-body select,
 .product-body input {
     width: 100%;
-    padding: 10px 12px;
-    margin-top: 4px;
-    margin-bottom: 12px;
+    padding: 12px;
+    margin: 8px 0 15px;
     border: 1px solid #ddd;
     border-radius: 8px;
     font-family: inherit;
-    box-sizing: border-box;
+}
+
+.product-body label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
 }
 
 .product-body button {
     width: 100%;
-    margin-top: 4px;
 }
-
 .qris-placeholder {
     width: 230px;
     height: 230px;
