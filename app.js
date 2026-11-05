@@ -116,7 +116,7 @@ const PRODUCTS = [
     }
 ];
 
-const PROMOS = { BUNGA10: { percent: 10, label: 'Diskon 10%' } };
+const PROMOS = { BEHINDTHISMOMENT: { percent: 10, label: 'Diskon 10%' } };
 const MAX_QTY = 20;
 const CART_KEY = 'aksarafloraCart';
 const PROMO_KEY = 'aksarafloraPromo';
