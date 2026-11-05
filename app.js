@@ -115,115 +115,8 @@ const PRODUCTS = [
         }
     }
 ];
-function productCard(p) {
-    const options = [];
 
-    if (p.prices.tangkai) {
-        options.push(`
-            <option value="tangkai">
-                Per Tangkai - ${rupiah(p.prices.tangkai)}
-            </option>
-        `);
-    }
 
-    if (p.prices.buket) {
-        options.push(`
-            <option value="buket">
-                Buket - ${rupiah(p.prices.buket)}
-            </option>
-        `);
-    }
-
-    if (p.prices.paket) {
-        options.push(`
-            <option value="paket">
-                Paket - ${rupiah(p.prices.paket)}
-            </option>
-        `);
-    }
-
-    return `
-        <article class="product-card">
-            <div class="product-visual">
-                <img
-                    src="${p.image}"
-                    alt="${p.name}"
-                    class="product-image"
-                >
-            </div>
-
-            <div class="product-body">
-                <h3>${p.name}</h3>
-
-                <label>Pilih jenis pembelian</label>
-
-                <select id="type-${p.id}">
-                    ${options.join("")}
-                </select>
-
-                <label>Jumlah</label>
-
-                <input
-                    type="number"
-                    id="qty-${p.id}"
-                    value="1"
-                    min="1"
-                >
-
-                <button
-                    class="btn btn-primary"
-                    onclick="addFlowerToCart('${p.id}')"
-                >
-                    + Keranjang
-                </button>
-            </div>
-        </article>
-    `;
-}
-function addFlowerToCart(id) {
-    const product = PRODUCTS.find(p => p.id === id);
-
-    if (!product) return;
-
-    const type = document.getElementById(`type-${id}`).value;
-    const qty = parseInt(
-        document.getElementById(`qty-${id}`).value
-    );
-
-    const price = product.prices[type];
-
-    if (!price || !Number.isInteger(qty) || qty < 1) {
-        alert("Pilihan produk atau jumlah tidak valid!");
-        return;
-    }
-
-    const cart = JSON.parse(
-        localStorage.getItem("aksara_cart") || "[]"
-    );
-
-    const existing = cart.find(
-        item => item.id === id && item.type === type
-    );
-
-    if (existing) {
-        existing.qty += qty;
-    } else {
-        cart.push({
-            id: product.id,
-            name: product.name,
-            type: type,
-            price: price,
-            qty: qty
-        });
-    }
-
-    localStorage.setItem(
-        "aksara_cart",
-        JSON.stringify(cart)
-    );
-
-    alert(`${product.name} berhasil ditambahkan ke keranjang!`);
-}
 const PROMOS = { BEHINDTHEMOMENT: { percent: 10, label: 'Diskon 10%' } };
 const MAX_QTY = 20;
 const CART_KEY = 'aksarafloraCart';
@@ -736,4 +629,114 @@ Terima kasih 🌷`;
         `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
 
     window.open(url, "_blank");
+}
+
+function productCard(p) {
+    const options = [];
+
+    if (p.prices.tangkai) {
+        options.push(`
+            <option value="tangkai">
+                Per Tangkai - ${rupiah(p.prices.tangkai)}
+            </option>
+        `);
+    }
+
+    if (p.prices.buket) {
+        options.push(`
+            <option value="buket">
+                Buket - ${rupiah(p.prices.buket)}
+            </option>
+        `);
+    }
+
+    if (p.prices.paket) {
+        options.push(`
+            <option value="paket">
+                Paket - ${rupiah(p.prices.paket)}
+            </option>
+        `);
+    }
+
+    return `
+        <article class="product-card">
+            <div class="product-visual">
+                <img
+                    src="${p.image}"
+                    alt="${p.name}"
+                    class="product-image"
+                >
+            </div>
+
+            <div class="product-body">
+                <h3>${p.name}</h3>
+
+                <label>Pilih jenis pembelian</label>
+
+                <select id="type-${p.id}">
+                    ${options.join("")}
+                </select>
+
+                <label>Jumlah</label>
+
+                <input
+                    type="number"
+                    id="qty-${p.id}"
+                    value="1"
+                    min="1"
+                >
+
+                <button
+                    class="btn btn-primary"
+                    onclick="addFlowerToCart('${p.id}')"
+                >
+                    + Keranjang
+                </button>
+            </div>
+        </article>
+    `;
+}
+function addFlowerToCart(id) {
+    const product = PRODUCTS.find(p => p.id === id);
+
+    if (!product) return;
+
+    const type = document.getElementById(`type-${id}`).value;
+    const qty = parseInt(
+        document.getElementById(`qty-${id}`).value
+    );
+
+    const price = product.prices[type];
+
+    if (!price || !Number.isInteger(qty) || qty < 1) {
+        alert("Pilihan produk atau jumlah tidak valid!");
+        return;
+    }
+
+    const cart = JSON.parse(
+        localStorage.getItem("aksara_cart") || "[]"
+    );
+
+    const existing = cart.find(
+        item => item.id === id && item.type === type
+    );
+
+    if (existing) {
+        existing.qty += qty;
+    } else {
+        cart.push({
+            id: product.id,
+            name: product.name,
+            type: type,
+            price: price,
+            qty: qty
+        });
+    }
+
+    localStorage.setItem(
+        "aksara_cart",
+        JSON.stringify(cart)
+    );
+
+    alert(`${product.name} berhasil ditambahkan ke keranjang!`);
 }
