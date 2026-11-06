@@ -435,6 +435,10 @@ function initCheckoutPage() {
                         <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: Selamat ulang tahun, semoga selalu bahagia!"></textarea>
                     </div>
                     <div class="field">
+                        <label for="kartu">link (opsional)</label>
+                        <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: https://spotify......."></textarea>
+                    </div>
+                    <div class="field">
                         <label>Metode pembayaran</label>
                         <div class="pay-fixed"><strong>QRIS</strong> (non-tunai). Kode QRIS tampil setelah pesanan dikirim, bisa dibayar lewat e-wallet atau m-banking apa pun.</div>
                     </div>
@@ -523,7 +527,7 @@ function waLink(text) {
 function orderWhatsAppText(order) {
     const lines = order.items.map((i, n) => (n + 1) + '. ' + i.nama + ' x' + i.qty + ' = ' + rupiah(i.subtotal)).join('\n');
     return [
-        'Halo Aksara Flora 🌸',
+        'Halo Aksara Flora :) ',
         'Saya sudah memesan lewat website dan ingin lanjut ke pembayaran.',
         '',
         'ID Pesanan: ' + order.orderId,
