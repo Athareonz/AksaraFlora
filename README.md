@@ -21,7 +21,7 @@ Website statis (HTML + CSS + JavaScript murni) untuk toko bunga online. Ada kata
 
 ## Alur Pemesanan
 
-Katalog → **Tambah ke Keranjang** → Keranjang (atur jumlah, kode promo `BEHINDTHISMOMENT` = diskon 10%) → **Checkout** (pemesan, penerima, tanggal kirim, alamat, kartu ucapan) → data masuk ke Google Sheets → halaman sukses menampilkan **QRIS** + tombol **kirim pesanan ke WhatsApp**.
+Katalog → **Tambah ke Keranjang** → Keranjang (atur jumlah, kode promo `BEHINDTHISMOMENT` = diskon 11%, hanya berlaku 11 November 2026) → **Checkout** (pemesan, penerima, tanggal kirim, alamat, kartu ucapan) → data masuk ke Google Sheets → halaman sukses menampilkan **QRIS** + tombol **kirim pesanan ke WhatsApp**.
 
 Mengubah produk atau harga: edit array `PRODUCTS` di bagian atas `app.js`. Semua halaman ikut berubah.
 

@@ -35,7 +35,17 @@ const FAVORITES = [
 
 const TYPE_LABEL = { tangkai: 'Per Tangkai', buket: 'Buket', paket: 'Paket' };
 
-const PROMOS = { BEHINDTHISMOMENT: { percent: 10, label: 'Diskon 10%' } };
+/* Promo 11.11: diskon 11%, hanya berlaku 11 November 2026 (waktu Jakarta) */
+const PROMOS = {
+    BEHINDTHISMOMENT: { percent: 11, label: 'Diskon 11% (11.11)', date: '2026-11-11', dateLabel: '11 November 2026' }
+};
+function todayJakarta() {
+    return new Date().toLocaleDateString('en-CA', { timeZone: 'Asia/Jakarta' });
+}
+function promoActive(code) {
+    const p = PROMOS[code];
+    return !!p && (!p.date || p.date === todayJakarta());
+}
 const MAX_QTY = 20;
 const CART_KEY = 'aksarafloraCart2';
 const PROMO_KEY = 'aksarafloraPromo';
@@ -138,7 +148,7 @@ function calcTotals() {
     const lines = cartLines();
     const subtotal = lines.reduce((s, l) => s + l.subtotal, 0);
     const code = load(PROMO_KEY);
-    const promo = code && PROMOS[code] ? PROMOS[code] : null;
+    const promo = code && promoActive(code) ? PROMOS[code] : null;
     const discount = promo ? Math.round(subtotal * promo.percent / 100) : 0;
     return { lines, subtotal, discount, total: subtotal - discount, code: promo ? code : '', promo };
 }
@@ -343,6 +353,13 @@ function applyPromo() {
         const msg = $('#promo-msg');
         msg.textContent = 'Kode promo tidak valid';
         msg.className = 'promo-msg err';
+        return;
+    }
+    if (!promoActive(code)) {
+        store(PROMO_KEY, null);
+        renderCart();
+        const msg = $('#promo-msg');
+        if (msg) { msg.textContent = 'Kode ini hanya berlaku pada ' + PROMOS[code].dateLabel; msg.className = 'promo-msg err'; }
         return;
     }
     store(PROMO_KEY, code);

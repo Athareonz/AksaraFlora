@@ -780,3 +780,9 @@ img.brand-icon { width: 56px; height: 56px; object-fit: contain; background: non
 .product-image[src*="sweet-six"] { object-position: center 62%; }
 
 .founder-photo { display: block; width: 160px; height: 160px; margin: 0 auto 16px; border-radius: 50%; object-fit: cover; border: 4px solid var(--cream-2); box-shadow: var(--shadow-sm); }
+
+/* ---------- Promo 11.11 ---------- */
+.promo-date {
+    display: inline-block; margin-bottom: 10px; padding: 4px 16px; border-radius: 999px;
+    background: var(--gold); color: var(--ink); font-weight: 800; letter-spacing: 0.12em;
+}
