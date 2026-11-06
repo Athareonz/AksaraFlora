@@ -15,7 +15,7 @@ const SHOP_CONFIG = {
     GA_TRACK_LOCAL: false,   // ubah ke true hanya kalau mau ngetes lewat localhost (GA DebugView)
 
     // Gambar QRIS toko. Simpan file QRIS kamu di images/qris.jpg (atau ganti path di sini).
-    QRIS_IMAGE: 'images/qris.jpg'
+    QRIS_IMAGE: 'images/QrisAksara.jpeg'
 };
 
 // Nomor WhatsApp toko, format internasional tanpa + dan tanpa spasi (62 = Indonesia)
