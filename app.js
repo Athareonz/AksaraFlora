@@ -590,7 +590,7 @@ function initWhatsAppFloat() {
     if (!WA_NUMBER || document.body.hasAttribute('data-no-track')) return;
     const a = document.createElement('a');
     a.className = 'wa-float';
-    a.href = waLink('Halo Aksara Flora, saya mau tanya soal bunga 🌸');
+    a.href = waLink('Halo Aksara Flora, saya mau tanya soal bunga :)');
     a.target = '_blank';
     a.rel = 'noopener';
     a.setAttribute('aria-label', 'Chat WhatsApp Aksara Flora');
