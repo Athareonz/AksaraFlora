@@ -22,15 +22,20 @@ const PRODUCTS = [
     { id: 'gerbera',   name: 'Bunga Gerbera',   category: 'Bunga', image: 'images/gerbera.jpg',   desc: 'Warna-warni ceria seperti bunga daisy besar.',   prices: { tangkai: 20000, buket: 10000 } },
     { id: 'hydrangea', name: 'Bunga Hydrangea', category: 'Bunga', image: 'images/hydrangea.jpg', desc: 'Gerombol kelopak biru keunguan yang mewah.',     prices: { tangkai: 35000, buket: 30000 } },
     { id: 'pikok',     name: 'Bunga Pikok',     category: 'Bunga', image: 'images/pikok.jpg',     desc: 'Bunga kecil putih yang rimbun dan manis.',       prices: { tangkai: 20000, buket: 5000 } },
-    { id: 'lily',      name: 'Bunga Lily',      category: 'Bunga', image: 'images/lily.jpg',      desc: 'Putih anggun dengan aroma yang elegan.',         prices: { tangkai: 100000, buket: 90000 } },
     { id: 'daun-talaspi', name: 'Daun Talaspi', category: 'Filler', image: 'images/daun-talaspi.jpg', desc: 'Daun hijau halus untuk memperindah rangkaian.', prices: { buket: 10000 } },
-    { id: 'sweet-six', name: 'The Sweet Six',   category: 'Paket', image: 'images/sweet-six.jpg', desc: '6 tangkai mawar merah + bunga filler, dibungkus cantik.', prices: { paket: 100000 } }
+    { id: 'sweet-six', name: 'The Sweet Six',   category: 'Paket', image: 'images/sweet-six.jpg', desc: '6 tangkai mawar merah + bunga filler, dibungkus cantik.', prices: { paket: 100000 } },
+    { id: 'sweetheart', name: 'Sweetheart', category: 'Paket', image: 'images/sweetheart.jpg', desc: 'Mawar merah dan krisan putih dengan bunga filler, dibungkus kertas merah marun.', prices: { paket: 150000 } },
+    { id: 'customized-medium', name: 'Customized Flower Bouquet (Medium)', category: 'Paket', image: 'images/customized-medium.jpg', desc: 'Buket ukuran medium dengan bunga pilihan, warna-warni ceria dan bisa disesuaikan.', prices: { paket: 170000 } },
+    { id: 'the-grand-romance', name: 'The Grand Romance', category: 'Paket', image: 'images/the-grand-romance.jpg', desc: 'Buket besar penuh mawar merah dengan baby breath, dibungkus kertas hitam emas.', prices: { paket: 350000 } }
 ];
 
 /* Produk favorit di beranda (paketan). only = jenis pembelian yang ditampilkan. */
 const FAVORITES = [
     { id: 'mawar',     only: 'tangkai', title: 'Mawar Per Tangkai', desc: 'Satu tangkai mawar merah, pas buat kejutan kecil.' },
-    { id: 'sweet-six', only: 'paket',   title: 'The Sweet Six',     desc: '6 tangkai mawar + bunga filler, dibungkus cantik.' }
+    { id: 'sweet-six', only: 'paket',   title: 'The Sweet Six',     desc: '6 tangkai mawar + bunga filler, dibungkus cantik.' },
+    { id: 'sweetheart',        only: 'paket', title: 'Sweetheart',        desc: 'Mawar merah dan krisan putih, manis untuk orang tersayang.' },
+    { id: 'customized-medium', only: 'paket', title: 'Customized Flower Bouquet (Medium)', desc: 'Buket medium warna-warni yang bisa disesuaikan.' },
+    { id: 'the-grand-romance', only: 'paket', title: 'The Grand Romance', desc: 'Buket besar penuh mawar merah untuk momen paling spesial.' }
 ];
 
 const TYPE_LABEL = { tangkai: 'Per Tangkai', buket: 'Buket', paket: 'Paket' };
@@ -68,7 +73,7 @@ function load(key) {
 
 /* ---------- Google Analytics 4 ----------
    Aktif hanya kalau GA_ID di config.js diisi (format G-XXXXXXXXXX).
-   Tidak mengirim data pribadi (nama, WhatsApp, alamat) ke Google. */
+   Tidak mengirim data pribadi (nama, WhatsApp) ke Google. */
 const GA_ID = ((typeof SHOP_CONFIG !== 'undefined' && SHOP_CONFIG.GA_ID) || '').trim();
 const GA_LOCAL = ['localhost', '127.0.0.1', ''].includes(location.hostname);
 const GA_ON = /^G-[A-Z0-9]{6,}$/.test(GA_ID) &&
@@ -444,10 +449,6 @@ function initCheckoutPage() {
                         <input type="date" id="tanggal" name="tanggal" required>
                     </div>
                     <div class="field">
-                        <label for="alamat">Alamat pengiriman <span class="req">*</span></label>
-                        <textarea id="alamat" name="alamat" maxlength="300" autocomplete="street-address" required></textarea>
-                    </div>
-                    <div class="field">
                         <label for="kartu">Pesan kartu ucapan (opsional)</label>
                         <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: Selamat ulang tahun, semoga selalu bahagia!"></textarea>
                     </div>
@@ -492,7 +493,6 @@ function initCheckoutPage() {
 
         const nama = form.nama.value.trim();
         const wa = form.wa.value.replace(/[\s-]/g, '');
-        const alamat = form.alamat.value.trim();
         const pembayaran = 'QRIS';
         const catatan = form.catatan.value.trim();
         const penerima = form.penerima.value.trim();
@@ -501,7 +501,6 @@ function initCheckoutPage() {
 
         if (nama.length < 2) return showError('Nama lengkap wajib diisi.');
         if (!/^(\+62|62|0)8[0-9]{8,12}$/.test(wa)) return showError('Nomor WhatsApp tidak valid. Contoh: 081234567890');
-        if (alamat.length < 10) return showError('Alamat pengiriman terlalu singkat, tulis yang lengkap ya.');
         if (!/^\d{4}-\d{2}-\d{2}$/.test(tanggal) || tanggal < todayISO()) return showError('Pilih tanggal pengiriman hari ini atau setelahnya.');
 
         const cur = calcTotals(); // hitung ulang saat submit
@@ -509,7 +508,7 @@ function initCheckoutPage() {
 
         const order = {
             orderId: newOrderId(),
-            nama, whatsapp: wa, penerima: penerima || nama, tanggalKirim: tanggal, alamat, kartu, catatan, pembayaran,
+            nama, whatsapp: wa, penerima: penerima || nama, tanggalKirim: tanggal, kartu, catatan, pembayaran,
             items: cur.lines.map(l => ({ id: l.id, jenis: l.type, nama: l.name, harga: l.price, qty: l.qty, subtotal: l.subtotal })),
             subtotal: cur.subtotal, kodePromo: cur.code, diskon: cur.discount, total: cur.total
         };
@@ -551,7 +550,6 @@ function orderWhatsAppText(order) {
         'Nama: ' + order.nama,
         'Penerima: ' + order.penerima,
         'Tanggal kirim: ' + order.tanggalKirim,
-        'Alamat: ' + order.alamat,
         order.kartu ? 'Kartu ucapan: ' + order.kartu : '',
         order.catatan ? 'Catatan: ' + order.catatan : '',
         '',
