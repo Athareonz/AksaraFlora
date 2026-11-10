@@ -14,13 +14,14 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
-    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar merah klasik, simbol rasa sayang.',        prices: { tangkai: 20000, buket: 15000 } },
+    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar klasik, simbol rasa sayang. Pilih warna merah atau putih.', colors: ['Merah', 'Putih'], prices: { tangkai: 20000, buket: 15000 } },,
     { id: 'krisan',    name: 'Bunga Krisan',    category: 'Bunga', image: 'images/krisan.jpg',    desc: 'Krisan pink dengan kelopak berlapis.',           prices: { tangkai: 20000, buket: 10000 } },
     { id: 'gompi',     name: 'Bunga Gompi',     category: 'Bunga', image: 'images/gompi.jpg',     desc: 'Bunga bulat berwarna putih krem yang lembut.',   prices: { tangkai: 20000, buket: 15000 } },
     { id: 'pompom',    name: 'Bunga Pompom',    category: 'Bunga', image: 'images/pompom.jpg',    desc: 'Bunga putih bulat mungil yang manis.',           prices: { tangkai: 20000, buket: 10000 } },
     { id: 'matahari',  name: 'Bunga Matahari',  category: 'Bunga', image: 'images/matahari.jpg',  desc: 'Kuning cerah, pembawa semangat.',                prices: { tangkai: 30000, buket: 25000 } },
     { id: 'gerbera',   name: 'Bunga Gerbera',   category: 'Bunga', image: 'images/gerbera.jpg',   desc: 'Warna-warni ceria seperti bunga daisy besar.',   prices: { tangkai: 20000, buket: 10000 } },
     { id: 'hydrangea', name: 'Bunga Hydrangea', category: 'Bunga', image: 'images/hydrangea.jpg', desc: 'Gerombol kelopak biru keunguan yang mewah.',     prices: { tangkai: 35000, buket: 30000 } },
+    { id: 'aster',     name: 'Bunga Aster',     category: 'Bunga', image: 'images/aster.jpg',     desc: 'Bunga aster putih dengan pusat kuning, segar dan manis.', prices: { tangkai: 20000, buket: 10000 } },
     { id: 'pikok',     name: 'Bunga Pikok',     category: 'Bunga', image: 'images/pikok.jpg',     desc: 'Bunga kecil putih yang rimbun dan manis.',       prices: { tangkai: 20000, buket: 5000 } },
     { id: 'daun-talaspi', name: 'Daun Talaspi', category: 'Filler', image: 'images/daun-talaspi.jpg', desc: 'Daun hijau halus untuk memperindah rangkaian.', prices: { buket: 10000 } },
     { id: 'sweet-six', name: 'The Sweet Six',   category: 'Paket', image: 'images/sweet-six.jpg', desc: '6 tangkai mawar merah + bunga filler, dibungkus cantik.', prices: { paket: 100000 } },
