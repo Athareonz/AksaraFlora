@@ -14,7 +14,7 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
-    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar klasik, simbol rasa sayang. Pilih warna merah atau putih.', colors: ['Merah', 'Putih'], prices: { tangkai: 20000, buket: 15000 } },,
+    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar klasik, simbol rasa sayang. Pilih warna merah atau putih.', colors: ['Merah', 'Putih'], prices: { tangkai: 20000, buket: 15000 } },
     { id: 'krisan',    name: 'Bunga Krisan',    category: 'Bunga', image: 'images/krisan.jpg',    desc: 'Krisan pink dengan kelopak berlapis.',           prices: { tangkai: 20000, buket: 10000 } },
     { id: 'gompi',     name: 'Bunga Gompi',     category: 'Bunga', image: 'images/gompi.jpg',     desc: 'Bunga bulat berwarna putih krem yang lembut.',   prices: { tangkai: 20000, buket: 15000 } },
     { id: 'pompom',    name: 'Bunga Pompom',    category: 'Bunga', image: 'images/pompom.jpg',    desc: 'Bunga putih bulat mungil yang manis.',           prices: { tangkai: 20000, buket: 10000 } },
@@ -120,7 +120,7 @@ function addToCart(id, type, qty, color) {
     const p = findProduct(id);
     qty = parseInt(qty, 10);
     if (!p || !p.prices[type] || !Number.isInteger(qty) || qty < 1) { toast('Pilihan atau jumlah tidak valid'); return; }
-    color = normColor(p, color);
+    color = p ? normColor(p, color) : '';
     const cart = getCart();
     const row = cart.find(i => sameRow(i, id, type, color));
     if (row) {
@@ -223,7 +223,7 @@ function productCard(p, opts) {
            <input type="hidden" id="type-${key}" value="${types[0]}">`
         : `<label for="type-${key}">Jenis pembelian</label>
            <select id="type-${key}">${typeOptions(p, only)}</select>`;
-             const colorField = p.colors
+    const colorField = p.colors
         ? `<label for="color-${key}">Warna</label>
            <select id="color-${key}">${p.colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select>`
         : '';
@@ -236,6 +236,7 @@ function productCard(p, opts) {
         <div class="product-body">
             <h3>${opts.title || p.name}</h3>
             <p class="product-desc">${opts.desc || p.desc}</p>
+            ${colorField}
             ${typeField}
             <div class="buy-row">
                 <div class="qty-field">
@@ -274,7 +275,8 @@ function initCatalog() {
         const btn = e.target.closest('[data-add]');
         if (!btn) return;
         const key = btn.dataset.key;
-        addToCart(btn.dataset.add, $('#type-' + key).value, $('#qty-' + key).value);
+        const colorEl = $('#color-' + key);
+        addToCart(btn.dataset.add, $('#type-' + key).value, $('#qty-' + key).value, colorEl ? colorEl.value : '');
     });
 }
 
@@ -311,12 +313,12 @@ function renderCart() {
             </div>
             <div class="cart-side">
                 <div class="qty">
-                    <button type="button" data-qty="-1" data-id="${l.id}" data-type="${l.type}" aria-label="Kurangi ${l.name}">−</button>
+                    <button type="button" data-qty="-1" data-id="${l.id}" data-type="${l.type}" data-color="${l.color}" aria-label="Kurangi ${l.name}">−</button>
                     <span>${l.qty}</span>
-                    <button type="button" data-qty="1" data-id="${l.id}" data-type="${l.type}" aria-label="Tambah ${l.name}">+</button>
+                    <button type="button" data-qty="1" data-id="${l.id}" data-type="${l.type}" data-color="${l.color}" aria-label="Tambah ${l.name}">+</button>
                 </div>
                 <span class="line-total">${rupiah(l.subtotal)}</span>
-                <button type="button" class="btn-remove" data-remove="${l.id}" data-type="${l.type}">Hapus</button>
+                <button type="button" class="btn-remove" data-remove="${l.id}" data-type="${l.type}" data-color="${l.color}">Hapus</button>
             </div>
         </div>`).join('');
 
@@ -354,8 +356,8 @@ function initCartPage() {
     root.addEventListener('click', e => {
         const q = e.target.closest('[data-qty]');
         const r = e.target.closest('[data-remove]');
-        if (q) { changeQty(q.dataset.id, q.dataset.type, parseInt(q.dataset.qty, 10)); renderCart(); }
-        else if (r) { removeItem(r.dataset.remove, r.dataset.type); renderCart(); }
+        if (q) { changeQty(q.dataset.id, q.dataset.type, parseInt(q.dataset.qty, 10), q.dataset.color); renderCart(); }
+        else if (r) { removeItem(r.dataset.remove, r.dataset.type, r.dataset.color); renderCart(); }
         else if (e.target.id === 'promo-apply') applyPromo();
     });
     root.addEventListener('keydown', e => {
@@ -521,7 +523,7 @@ function initCheckoutPage() {
         const order = {
             orderId: newOrderId(),
             nama, whatsapp: wa, penerima: penerima || nama, tanggalKirim: tanggal, kartu, catatan, pembayaran,
-            items: cur.lines.map(l => ({ id: l.id, jenis: l.type, nama: l.name, harga: l.price, qty: l.qty, subtotal: l.subtotal })),
+            items: cur.lines.map(l => ({ id: l.id, jenis: l.type, warna: l.color, nama: l.name, harga: l.price, qty: l.qty, subtotal: l.subtotal })),
             subtotal: cur.subtotal, kodePromo: cur.code, diskon: cur.discount, total: cur.total
         };
 
