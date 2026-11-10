@@ -97,8 +97,14 @@ const gaItems = lines => lines.map(l => ({ item_id: l.id, item_name: l.name, pri
 /* ---------- Keranjang ----------
    Item keranjang = { id, type, qty }. type = tangkai | buket | paket.
    Harga selalu diambil dari PRODUCTS, bukan dari localStorage. */
-const lineKey = (id, type) => id + '|' + type;
-const lineName = (p, type) => p.category === 'Paket' || p.category === 'Filler' ? p.name : p.name + ' (' + TYPE_LABEL[type] + ')';
+const lineKey = (id, type, color) => id + '|' + type + '|' + (color || '');
+const sameRow = (i, id, type, color) => i.id === id && i.type === type && (i.color || '') === (color || '');
+const lineName = (p, type, color) => {
+    const base = p.name + (color ? ' ' + color : '');
+    return p.category === 'Paket' || p.category === 'Filler' ? base : base + ' (' + TYPE_LABEL[type] + ')';
+};
+/* Warna valid hanya untuk produk yang punya pilihan warna; produk lama tanpa warna dianggap warna pertama */
+const normColor = (p, color) => p.colors ? (p.colors.includes(color) ? color : p.colors[0]) : '';
 
 function getCart() {
     const raw = load(CART_KEY);
@@ -106,40 +112,41 @@ function getCart() {
     return raw.filter(i => {
         const p = i && findProduct(i.id);
         return p && p.prices[i.type] && Number.isInteger(i.qty) && i.qty > 0;
-    }).map(i => ({ id: i.id, type: i.type, qty: Math.min(i.qty, MAX_QTY) }));
+    }).map(i => ({ id: i.id, type: i.type, color: normColor(findProduct(i.id), i.color), qty: Math.min(i.qty, MAX_QTY) }));
 }
 function saveCart(cart) { store(CART_KEY, cart); updateBadge(); }
 
-function addToCart(id, type, qty) {
+function addToCart(id, type, qty, color) {
     const p = findProduct(id);
     qty = parseInt(qty, 10);
     if (!p || !p.prices[type] || !Number.isInteger(qty) || qty < 1) { toast('Pilihan atau jumlah tidak valid'); return; }
+    color = normColor(p, color);
     const cart = getCart();
-    const row = cart.find(i => i.id === id && i.type === type);
+    const row = cart.find(i => sameRow(i, id, type, color));
     if (row) {
         if (row.qty + qty > MAX_QTY) { toast('Maksimal ' + MAX_QTY + ' per item'); return; }
         row.qty += qty;
     } else {
-        cart.push({ id, type, qty: Math.min(qty, MAX_QTY) });
+        cart.push({ id, type, color, qty: Math.min(qty, MAX_QTY) });
     }
     saveCart(cart);
-    track('add_to_cart', { currency: 'IDR', value: p.prices[type] * qty, items: gaItems([{ id: p.id, name: lineName(p, type), price: p.prices[type], qty }]) });
-    toast(lineName(p, type) + ' masuk keranjang 🛒');
+    track('add_to_cart', { currency: 'IDR', value: p.prices[type] * qty, items: gaItems([{ id: p.id, name: lineName(p, type, color), price: p.prices[type], qty }]) });
+    toast(lineName(p, type, color) + ' masuk keranjang 🛒');
 }
-function changeQty(id, type, delta) {
+function changeQty(id, type, delta, color) {
     const cart = getCart();
-    const row = cart.find(i => i.id === id && i.type === type);
+    const row = cart.find(i => sameRow(i, id, type, color));
     if (!row) return;
     row.qty = Math.min(MAX_QTY, row.qty + delta);
     saveCart(cart.filter(i => i.qty > 0));
 }
-function removeItem(id, type) {
-    const row = getCart().find(i => i.id === id && i.type === type);
+function removeItem(id, type, color) {
+    const row = getCart().find(i => sameRow(i, id, type, color));
     if (row) {
         const p = findProduct(id);
-        track('remove_from_cart', { currency: 'IDR', value: p.prices[type] * row.qty, items: gaItems([{ id: p.id, name: lineName(p, type), price: p.prices[type], qty: row.qty }]) });
+        track('remove_from_cart', { currency: 'IDR', value: p.prices[type] * row.qty, items: gaItems([{ id: p.id, name: lineName(p, type, color), price: p.prices[type], qty: row.qty }]) });
     }
-    saveCart(getCart().filter(i => !(i.id === id && i.type === type)));
+    saveCart(getCart().filter(i => !sameRow(i, id, type, color)));
 }
 function clearCart() { store(CART_KEY, null); store(PROMO_KEY, null); updateBadge(); }
 
@@ -147,7 +154,7 @@ function cartLines() {
     return getCart().map(i => {
         const p = findProduct(i.id);
         const price = p.prices[i.type];
-        return { id: p.id, type: i.type, name: lineName(p, i.type), price, qty: i.qty, subtotal: price * i.qty, product: p };
+        return { id: p.id, type: i.type, color: i.color || '', name: lineName(p, i.type, i.color), price, qty: i.qty, subtotal: price * i.qty, product: p };
     });
 }
 function calcTotals() {
@@ -216,6 +223,10 @@ function productCard(p, opts) {
            <input type="hidden" id="type-${key}" value="${types[0]}">`
         : `<label for="type-${key}">Jenis pembelian</label>
            <select id="type-${key}">${typeOptions(p, only)}</select>`;
+             const colorField = p.colors
+        ? `<label for="color-${key}">Warna</label>
+           <select id="color-${key}">${p.colors.map(c => `<option value="${c}">${c}</option>`).join('')}</select>`
+        : '';
     return `
     <article class="product-card">
         <div class="product-visual">
