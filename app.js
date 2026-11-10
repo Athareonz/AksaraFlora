@@ -467,12 +467,16 @@ function initCheckoutPage() {
                         <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: Selamat ulang tahun, semoga selalu bahagia!"></textarea>
                     </div>
                     <div class="field">
-                        <label for="kartu">link (opsional)</label>
-                        <textarea id="kartu" name="kartu" maxlength="200" placeholder="Contoh: https://spotify......."></textarea>
+                        <label for="link">Link (opsional)</label>
+                        <textarea id="link" name="link" maxlength="200" placeholder="Contoh: https://spotify......."></textarea>
                     </div>
                     <div class="field">
                         <label>Metode pembayaran</label>
-                        <div class="pay-fixed"><strong>QRIS</strong> (non-tunai). Kode QRIS tampil setelah pesanan dikirim, bisa dibayar lewat e-wallet atau m-banking apa pun.</div>
+                        <select id="pembayaran" name="pembayaran">
+                            <option value="QRIS">QRIS (non-tunai)</option>
+                            <option value="Tunai">Tunai</option>
+                        </select>
+                        <div class="hint" id="pay-hint">Kode QRIS tampil setelah pesanan dikirim, bisa dibayar lewat e-wallet atau m-banking apa pun.</div>
                     </div>
                     <div class="field">
                         <label for="catatan">Catatan (opsional)</label>
@@ -501,17 +505,25 @@ function initCheckoutPage() {
 
     form.tanggal.min = todayISO();
 
+    form.pembayaran.addEventListener('change', () => {
+        $('#pay-hint').textContent = form.pembayaran.value === 'Tunai'
+            ? 'Bayar tunai langsung ke Aksara Flora, lalu kirim detail pesanan ke WhatsApp.'
+            : 'Kode QRIS tampil setelah pesanan dikirim, bisa dibayar lewat e-wallet atau m-banking apa pun.';
+    });
+
     form.addEventListener('submit', async e => {
         e.preventDefault();
         errBox.classList.remove('show');
 
         const nama = form.nama.value.trim();
         const wa = form.wa.value.replace(/[\s-]/g, '');
-        const pembayaran = 'QRIS';
+        const pembayaran = form.pembayaran.value === 'Tunai' ? 'Tunai' : 'QRIS';
         const catatan = form.catatan.value.trim();
         const penerima = form.penerima.value.trim();
         const tanggal = form.tanggal.value;
-        const kartu = form.kartu.value.trim();
+        const kartuTeks = form.kartu.value.trim();
+        const link = form.link.value.trim();
+        const kartu = [kartuTeks, link ? 'Link: ' + link : ''].filter(Boolean).join(' | ');
 
         if (nama.length < 2) return showError('Nama lengkap wajib diisi.');
         if (!/^(\+62|62|0)8[0-9]{8,12}$/.test(wa)) return showError('Nomor WhatsApp tidak valid. Contoh: 081234567890');
@@ -572,7 +584,9 @@ function orderWhatsAppText(order) {
         order.diskon ? 'Diskon (' + order.kodePromo + '): -' + rupiah(order.diskon) : '',
         'TOTAL: ' + rupiah(order.total),
         '',
-        'Pembayaran: QRIS. Bukti pembayaran saya lampirkan di chat ini.'
+        order.pembayaran === 'Tunai'
+            ? 'Pembayaran: Tunai (dibayar langsung).'
+            : 'Pembayaran: QRIS. Bukti pembayaran saya lampirkan di chat ini.'
     ].filter((x, i, a) => x !== '' || (a[i - 1] !== '' && i !== 0)).join('\n');
 }
 
@@ -586,6 +600,21 @@ function showSuccess(root, order, demo) {
             <p>Terima kasih, <strong class="who"></strong>. Bunga dijadwalkan terkirim tanggal <strong class="tgl"></strong>.</p>
 
             <div class="pay-steps">
+                ${order.pembayaran === 'Tunai' ? `
+                <div class="pay-step">
+                    <span class="step-no">1</span>
+                    <div>
+                        <h4>Bayar tunai</h4>
+                        <p>Bayar langsung ke Aksara Flora sebesar <strong>${rupiah(order.total)}</strong>.</p>
+                    </div>
+                </div>
+                <div class="pay-step">
+                    <span class="step-no">2</span>
+                    <div>
+                        <h4>Kirim pesanan ke WhatsApp</h4>
+                        <p>Detail pesananmu sudah kami siapkan otomatis. Tinggal kirim, dan kamu bisa langsung tanya-tanya soal pesanannya.</p>
+                    </div>
+                </div>` : `
                 <div class="pay-step">
                     <span class="step-no">1</span>
                     <div>
@@ -604,7 +633,7 @@ function showSuccess(root, order, demo) {
                         <h4>Kirim pesanan &amp; bukti bayar ke WhatsApp</h4>
                         <p>Detail pesananmu sudah kami siapkan otomatis. Tinggal kirim, lampirkan bukti bayar, dan kamu bisa langsung tanya-tanya soal pesanannya.</p>
                     </div>
-                </div>
+                </div>`}
             </div>
 
             ${demo ? '<div class="demo-note">Mode demo: Google Sheets belum disambungkan, pesanan hanya tersimpan di browser ini.</div>' : ''}
