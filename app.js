@@ -21,6 +21,7 @@ const PRODUCTS = [
     { id: 'matahari',  name: 'Bunga Matahari',  category: 'Bunga', image: 'images/matahari.jpg',  desc: 'Kuning cerah, pembawa semangat.',                prices: { tangkai: 30000, buket: 25000 } },
     { id: 'gerbera',   name: 'Bunga Gerbera',   category: 'Bunga', image: 'images/gerbera.jpg',   desc: 'Warna-warni ceria seperti bunga daisy besar.',   prices: { tangkai: 20000, buket: 10000 } },
     { id: 'hydrangea', name: 'Bunga Hydrangea', category: 'Bunga', image: 'images/hydrangea.jpg', desc: 'Gerombol kelopak biru keunguan yang mewah.',     prices: { tangkai: 35000, buket: 30000 } },
+    { id: 'lily',      name: 'Bunga Lily',      category: 'Bunga', image: 'images/lily.jpg',      desc: 'Lily merah muda yang harum dan anggun untuk momen istimewa.', prices: { tangkai: 120000, buket: 100000 } },
     { id: 'aster',     name: 'Bunga Aster',     category: 'Bunga', image: 'images/aster.jpg',     desc: 'Bunga aster putih dengan pusat kuning, segar dan manis.', prices: { tangkai: 20000, buket: 10000 } },
     { id: 'pikok',     name: 'Bunga Pikok',     category: 'Bunga', image: 'images/pikok.jpg',     desc: 'Bunga kecil putih yang rimbun dan manis.',       prices: { tangkai: 20000, buket: 5000 } },
     { id: 'daun-talaspi', name: 'Daun Talaspi', category: 'Filler', image: 'images/daun-talaspi.jpg', desc: 'Daun hijau halus untuk memperindah rangkaian.', prices: { buket: 10000 } },
