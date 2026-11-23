@@ -31,13 +31,11 @@ const PRODUCTS = [
     { id: 'the-grand-romance', name: 'The Grand Romance', category: 'Paket', image: 'images/the-grand-romance.jpg', desc: 'Buket besar penuh mawar merah dengan baby breath, dibungkus kertas hitam emas.', prices: { paket: 350000 } }
 ];
 
-/* Produk favorit di beranda. Diambil dari data bazaar (finance_bazar): bunga yang paling banyak
-   distok dan paling sering terjual = Mawar, Gerbera, Aster, Gompi. */
+/* Produk favorit di beranda (dari data bazaar), semuanya dijual per tangkai. */
 const FAVORITES = [
-    { id: 'mawar',   title: 'Bunga Mawar',   desc: 'Paling laris di bazaar. Klasik, pas untuk kejutan kecil maupun buket besar.' },
-    { id: 'gerbera', title: 'Bunga Gerbera', desc: 'Warna-warni ceria, jadi pilihan kedua terbanyak pelanggan.' },
-    { id: 'aster',   title: 'Bunga Aster',   desc: 'Putih dengan pusat kuning, segar dan manis dalam rangkaian.' },
-    { id: 'gompi',   title: 'Bunga Gompi',   desc: 'Bulat putih krem yang lembut, favorit untuk buket.' }
+    { id: 'mawar',   only: 'tangkai', title: 'Bunga Mawar - Per Tangkai',   desc: 'Paling laris di bazaar. Klasik, pas untuk kejutan kecil.' },
+    { id: 'gerbera', only: 'tangkai', title: 'Bunga Gerbera - Per Tangkai', desc: 'Warna-warni ceria, favorit pelanggan.' },
+    { id: 'gompi',   only: 'tangkai', title: 'Bunga Gompi - Per Tangkai',   desc: 'Bulat putih krem yang lembut dan manis.' }
 ];
 
 const TYPE_LABEL = { tangkai: 'Per Tangkai', buket: 'Buket', paket: 'Paket' };
