@@ -14,7 +14,7 @@ const CATEGORIES = [
 ];
 
 const PRODUCTS = [
-    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar klasik, simbol rasa sayang. Pilih warna merah atau putih.', colors: ['Merah', 'Putih'], prices: { tangkai: 20000, buket: 15000 } },
+    { id: 'mawar',     name: 'Bunga Mawar',     category: 'Bunga', image: 'images/mawar.jpg',     desc: 'Mawar klasik, simbol rasa sayang.', prices: { tangkai: 20000, buket: 15000 } },
     { id: 'krisan',    name: 'Bunga Krisan',    category: 'Bunga', image: 'images/krisan.jpg',    desc: 'Krisan pink dengan kelopak berlapis.',           prices: { tangkai: 20000, buket: 10000 } },
     { id: 'gompi',     name: 'Bunga Gompi',     category: 'Bunga', image: 'images/gompi.jpg',     desc: 'Bunga bulat berwarna putih krem yang lembut.',   prices: { tangkai: 20000, buket: 15000 } },
     { id: 'pompom',    name: 'Bunga Pompom',    category: 'Bunga', image: 'images/pompom.jpg',    desc: 'Bunga putih bulat mungil yang manis.',           prices: { tangkai: 20000, buket: 10000 } },
@@ -31,13 +31,13 @@ const PRODUCTS = [
     { id: 'the-grand-romance', name: 'The Grand Romance', category: 'Paket', image: 'images/the-grand-romance.jpg', desc: 'Buket besar penuh mawar merah dengan baby breath, dibungkus kertas hitam emas.', prices: { paket: 350000 } }
 ];
 
-/* Produk favorit di beranda (paketan). only = jenis pembelian yang ditampilkan. */
+/* Produk favorit di beranda. Diambil dari data bazaar (finance_bazar): bunga yang paling banyak
+   distok dan paling sering terjual = Mawar, Gerbera, Aster, Gompi. */
 const FAVORITES = [
-    { id: 'mawar',     only: 'tangkai', title: 'Mawar Per Tangkai', desc: 'Satu tangkai mawar merah, pas buat kejutan kecil.' },
-    { id: 'sweet-six', only: 'paket',   title: 'The Sweet Six',     desc: '6 tangkai mawar + bunga filler, dibungkus cantik.' },
-    { id: 'sweetheart',        only: 'paket', title: 'Sweetheart',        desc: 'Mawar merah dan krisan putih, manis untuk orang tersayang.' },
-    { id: 'customized-medium', only: 'paket', title: 'Customized Flower Bouquet (Medium)', desc: 'Buket medium warna-warni yang bisa disesuaikan.' },
-    { id: 'the-grand-romance', only: 'paket', title: 'The Grand Romance', desc: 'Buket besar penuh mawar merah untuk momen paling spesial.' }
+    { id: 'mawar',   title: 'Bunga Mawar',   desc: 'Paling laris di bazaar. Klasik, pas untuk kejutan kecil maupun buket besar.' },
+    { id: 'gerbera', title: 'Bunga Gerbera', desc: 'Warna-warni ceria, jadi pilihan kedua terbanyak pelanggan.' },
+    { id: 'aster',   title: 'Bunga Aster',   desc: 'Putih dengan pusat kuning, segar dan manis dalam rangkaian.' },
+    { id: 'gompi',   title: 'Bunga Gompi',   desc: 'Bulat putih krem yang lembut, favorit untuk buket.' }
 ];
 
 const TYPE_LABEL = { tangkai: 'Per Tangkai', buket: 'Buket', paket: 'Paket' };
@@ -54,6 +54,9 @@ function promoActive(code) {
     return !!p && (!p.date || p.date === todayJakarta());
 }
 const MAX_QTY = 20;
+/* Aturan buket: kalau di keranjang ada item dengan jenis pembelian Buket (semua bunga),
+   total semua item Buket itu minimal MIN_BUKET supaya bisa checkout. */
+const MIN_BUKET = 30000;
 const CART_KEY = 'aksarafloraCart2';
 const PROMO_KEY = 'aksarafloraPromo';
 const ORDERS_KEY = 'aksarafloraOrders';
@@ -167,6 +170,14 @@ function calcTotals() {
     return { lines, subtotal, discount, total: subtotal - discount, code: promo ? code : '', promo };
 }
 
+function buketStatus(lines) {
+    const total = lines.filter(l => l.type === 'buket').reduce((s, l) => s + l.subtotal, 0);
+    const has = lines.some(l => l.type === 'buket');
+    const ok = !has || total >= MIN_BUKET;
+    return { has, total, ok, shortfall: ok ? 0 : MIN_BUKET - total };
+}
+const buketMsg = b => 'Pembelian opsi Buket minimal ' + rupiah(MIN_BUKET) + ' (total Buket kamu ' + rupiah(b.total) + ', kurang ' + rupiah(b.shortfall) + '). Tambah bunga Buket atau ubah ke Per Tangkai.';
+
 /* ---------- UI umum ---------- */
 function updateBadge() {
     const count = getCart().reduce((s, i) => s + i.qty, 0);
@@ -239,6 +250,7 @@ function productCard(p, opts) {
             <p class="product-desc">${opts.desc || p.desc}</p>
             ${colorField}
             ${typeField}
+            ${p.prices.buket ? `<div class="hint buket-hint">Opsi Buket: total belanja Buket minimal ${rupiah(MIN_BUKET)} untuk bisa checkout.</div>` : ''}
             <div class="buy-row">
                 <div class="qty-field">
                     <label for="qty-${key}">Jumlah</label>
@@ -305,6 +317,7 @@ function renderCart() {
         return;
     }
 
+    const bk = buketStatus(t.lines);
     const items = t.lines.map(l => `
         <div class="cart-item">
             <img class="cart-thumb" src="${l.product.image}" alt="" aria-hidden="true">
@@ -340,8 +353,11 @@ function renderCart() {
                     </div>
                     <div class="promo-msg ${t.code ? 'ok' : ''}" id="promo-msg">${t.code ? 'Kode promo terpasang ✔' : ''}</div>
                 </div>
+                ${bk.ok ? '' : `<div class="buket-warn" role="alert">${buketMsg(bk)}</div>`}
                 <div class="summary-actions">
-                    <a href="checkout.html" class="btn btn-primary btn-block">Lanjut ke Checkout</a>
+                    ${bk.ok
+                        ? '<a href="checkout.html" class="btn btn-primary btn-block">Lanjut ke Checkout</a>'
+                        : '<button type="button" class="btn btn-primary btn-block" disabled aria-disabled="true">Lanjut ke Checkout</button>'}
                     <a href="produk.html" class="btn btn-outline btn-block">Tambah Bunga Lain</a>
                 </div>
             </aside>
@@ -433,6 +449,18 @@ function initCheckoutPage() {
                 <h3>Belum ada yang di-checkout</h3>
                 <p>Keranjang kamu kosong. Pilih bunga dulu ya.</p>
                 <a href="produk.html" class="btn btn-primary">Lihat Katalog</a>
+            </div>`;
+        return;
+    }
+
+    const bkc = buketStatus(t.lines);
+    if (!bkc.ok) {
+        root.innerHTML = `
+            <div class="panel empty-state">
+                <span class="big" aria-hidden="true">💐</span>
+                <h3>Belum bisa checkout</h3>
+                <p class="buket-warn">${buketMsg(bkc)}</p>
+                <a href="keranjang.html" class="btn btn-primary">Kembali ke Keranjang</a>
             </div>`;
         return;
     }
@@ -532,6 +560,8 @@ function initCheckoutPage() {
 
         const cur = calcTotals(); // hitung ulang saat submit
         if (cur.lines.length === 0) return showError('Keranjang kosong.');
+        const bks = buketStatus(cur.lines);
+        if (!bks.ok) return showError(buketMsg(bks));
 
         const order = {
             orderId: newOrderId(),
